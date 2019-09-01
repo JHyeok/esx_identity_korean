@@ -52,7 +52,7 @@ RegisterNUICallback('escape', function(data, cb)
 	if hasIdentity then
 		EnableGui(false)
 	else
-		TriggerEvent('chat:addMessage', { args = { '^1[IDENTITY]', '^1You must create your first character in order to play' } })
+		TriggerEvent('chat:addMessage', { args = { '^1[IDENTITY]', '^1플레이하려면 첫 번째 캐릭터를 만들어야합니다.' } })
 	end
 end)
 
@@ -68,18 +68,18 @@ RegisterNUICallback('register', function(data, cb)
 			end
 		elseif theData == "dateofbirth" then
 			if value == "invalid" then
-				reason = "Invalid date of birth!"
+				reason = "생년월일이 잘못되었습니다!"
 				break
 			end
 		elseif theData == "height" then
 			local height = tonumber(value)
 			if height then
 				if height > 200 or height < 140 then
-					reason = "Unacceptable player height!"
+					reason = "허용되지 않는 플레이어 키입니다!"
 					break
 				end
 			else
-				reason = "Unacceptable player height!"
+				reason = "허용되지 않는 플레이어 키입니다!"
 				break
 			end
 		end
@@ -126,7 +126,7 @@ function verifyName(name)
 	-- Don't allow short user names
 	local nameLength = string.len(name)
 	if nameLength > 25 or nameLength < 2 then
-		return 'Your player name is either too short or too long.'
+		return '플레이어 이름이 너무 짧거나 너무 깁니다.'
 	end
 	
 	-- Don't allow special characters (doesn't always work)
@@ -135,7 +135,7 @@ function verifyName(name)
 		count = count + 1
 	end
 	if count ~= nameLength then
-		return 'Your player name contains special characters that are not allowed on this server.'
+		return '플레이어 이름에이 서버에서 허용되지 않는 특수 문자가 포함되어 있습니다.'
 	end
 	
 	-- Does the player carry a first and last name?
@@ -156,11 +156,11 @@ function verifyName(name)
 	end
 
 	if spacesInName > 2 then
-		return 'Your name contains more than two spaces'
+		return '이름에 공백이 두 개 이상 있습니다.'
 	end
 	
 	if spacesWithUpper ~= spacesInName then
-		return 'your name must start with a capital letter.'
+		return '이름은 대문자로 시작해야합니다.'
 	end
 
 	return ''
