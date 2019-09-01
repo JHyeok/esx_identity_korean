@@ -195,7 +195,7 @@ AddEventHandler('esx_identity:setIdentity', function(data, myIdentifiers)
 		if callback then
 			TriggerClientEvent('esx_identity:identityCheck', myIdentifiers.playerid, true)
 		else
-			TriggerClientEvent('chat:addMessage', source, { args = { '^[IDENTITY]', 'Failed to set character, try again later or contact the server admin!' } })
+			TriggerClientEvent('chat:addMessage', source, { args = { '^[IDENTITY]', '캐릭터 설정에 실패했습니다, 나중에 다시 시도하거나 서버 관리자에게 문의하십시오!' } })
 		end
 	end)
 end)
@@ -248,50 +248,50 @@ end)
 TriggerEvent('es:addCommand', 'register', function(source, args, user)
 	getCharacters(source, function(data)
 		if data.firstname3 ~= '' then
-			TriggerClientEvent('chat:addMessage', source, { args = { '^[IDENTITY]', 'You can only have 3 registered characters. Use the ^3/chardel^0  command in order to delete existing characters.' } })
+			TriggerClientEvent('chat:addMessage', source, { args = { '^[IDENTITY]', '캐릭터는 3개까지만 등록이 가능합니다. 기존 캐릭터를 삭제하려면 ^3/chardel^0 명령어를 사용하십시오.' } })
 		else
 			TriggerClientEvent('esx_identity:showRegisterIdentity', source, {})
 		end
 	end)
-end, {help = "Register a new character"})
+end, {help = "새로운 캐릭터 등록"})
 
 TriggerEvent('es:addGroupCommand', 'char', 'user', function(source, args, user)
 	getIdentity(source, function(data)
 		if data.firstname == '' then
-			TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'You do not have an active character!' } })
+			TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '당신은 등록된 캐릭터가 없습니다!!' } })
 		else
-			TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'Active character: ^2' .. data.firstname .. ' ' .. data.lastname } })
+			TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '등록된 캐릭터: ^2' .. data.firstname .. ' ' .. data.lastname } })
 		end
 	end)
 end, function(source, args, user)
-	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient permissions!' } })
-end, {help = "List your current character"})
+	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', '권한이 충분하지 않습니다!' } })
+end, {help = "현재 캐릭터 목록"})
 
 TriggerEvent('es:addGroupCommand', 'charlist', 'user', function(source, args, user)
 	getCharacters(source, function(data)
 		if data.firstname1 ~= '' then
-			TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY] Character 1:', data.firstname1 .. ' ' .. data.lastname1 } })
+			TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY] 캐릭터 1:', data.firstname1 .. ' ' .. data.lastname1 } })
 			
 			if data.firstname2 ~= '' then
-				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY] Character 2:', data.firstname2 .. ' ' .. data.lastname2 } })
+				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY] 캐릭터 2:', data.firstname2 .. ' ' .. data.lastname2 } })
 				
 				if data.firstname3 ~= '' then
-					TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY] Character 3:', data.firstname3 .. ' ' .. data.lastname3 } })
+					TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY] 캐릭터 3:', data.firstname3 .. ' ' .. data.lastname3 } })
 				end
 			end
 		else
-			TriggerClientEvent('chat:addMessage', source, { args = { '^[IDENTITY]', 'You have no registered characters. Use the ^3/register^0 command to register a character.' } })
+			TriggerClientEvent('chat:addMessage', source, { args = { '^[IDENTITY]', '등록된 캐릭터가 없습니다. ^3/register^0 명령어를 사용하여 캐릭터를 등록하십시오.' } })
 		end
 	end)
 end, function(source, args, user)
-	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient permissions!' } })
+	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', '권한이 충분하지 않습니다!' } })
 end, {help = "List all your registered characters"})
 
 TriggerEvent('es:addGroupCommand', 'charselect', 'user', function(source, args, user)
 	local charNumber = tonumber(args[1])
 
 	if charNumber == nil or charNumber > 3 or charNumber < 1 then
-		TriggerClientEvent('chat:addMessage', source, { args = { '^[IDENTITY]', 'That\'s an invalid character!' } })
+		TriggerClientEvent('chat:addMessage', source, { args = { '^[IDENTITY]', '잘못된 캐릭터 입니다!' } })
 		return
 	end
 
@@ -309,13 +309,13 @@ TriggerEvent('es:addGroupCommand', 'charselect', 'user', function(source, args, 
 			if data.firstname ~= '' then
 				updateIdentity(GetPlayerIdentifiers(source)[1], data, function(callback)
 					if callback then
-						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'Updated your active character to ^2' .. data.firstname .. ' ' .. data.lastname } })
+						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '활성 캐릭터를 변경: ^2' .. data.firstname .. ' ' .. data.lastname } })
 					else
-						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'Failed to update your identity, try again later or contact the server admin!' } })
+						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '신원을 업데이트하지 못했습니다. 나중에 다시 시도하거나 서버 관리자에게 문의하십시오!' } })
 					end
 				end)
 			else
-				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'You don\'t have a character in slot 1!' } })
+				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '슬롯 1에 캐릭터가 없습니다!' } })
 			end
 		elseif charNumber == 2 then
 
@@ -332,13 +332,13 @@ TriggerEvent('es:addGroupCommand', 'charselect', 'user', function(source, args, 
 				updateIdentity(GetPlayerIdentifiers(source)[1], data, function(callback)
 
 					if callback then
-						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'Updated your active character to ^2' .. data.firstname .. ' ' .. data.lastname } })
+						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '활성 캐릭터를 변경: ^2' .. data.firstname .. ' ' .. data.lastname } })
 					else
-						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'Failed to update your identity, try again later or contact the server admin!' } })
+						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '신원을 업데이트하지 못했습니다. 나중에 다시 시도하거나 서버 관리자에게 문의하십시오!' } })
 					end
 				end)
 			else
-				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'You don\'t have a character in slot 2!' } })
+				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '슬롯 2에 캐릭터가 없습니다!' } })
 			end
 		elseif charNumber == 3 then
 
@@ -354,28 +354,28 @@ TriggerEvent('es:addGroupCommand', 'charselect', 'user', function(source, args, 
 			if data.firstname ~= '' then
 				updateIdentity(GetPlayerIdentifiers(source)[1], data, function(callback)
 					if callback then
-						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'Updated your active character to ^2' .. data.firstname .. ' ' .. data.lastname } })
+						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '활성 캐릭터를 변경: ^2' .. data.firstname .. ' ' .. data.lastname } })
 					else
-						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'Failed to update your identity, try again later or contact the server admin!' } })
+						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '신원을 업데이트하지 못했습니다. 나중에 다시 시도하거나 서버 관리자에게 문의하십시오!' } })
 					end
 				end)
 			else
-				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'You don\'t have a character in slot 3!' } })
+				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '슬롯 3에 캐릭터가 없습니다!' } })
 			end
 		else
-			TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'Failed to update your identity, try again later or contact the server admin!' } })
+			TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '신원을 업데이트하지 못했습니다. 나중에 다시 시도하거나 서버 관리자에게 문의하십시오!' } })
 		end
 
 	end)
 end, function(source, args, user)
-	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient permissions!' } })
+	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', '권한이 충분하지 않습니다!' } })
 end, {help = "Switch between character", params = {{name = "char", help = "the character id, ranges from 1-3"}}})
 
 TriggerEvent('es:addGroupCommand', 'chardel', 'user', function(source, args, user)
 	local charNumber = tonumber(args[1])
 
 	if charNumber == nil or charNumber > 3 or charNumber < 1 then
-		TriggerClientEvent('chat:addMessage', source, { args = { '^[IDENTITY]', 'That\'s an invalid character!' } })
+		TriggerClientEvent('chat:addMessage', source, { args = { '^[IDENTITY]', '유효하지 않은 캐릭터입니다!' } })
 		return
 	end
 
@@ -395,13 +395,13 @@ TriggerEvent('es:addGroupCommand', 'chardel', 'user', function(source, args, use
 			if data.firstname ~= '' then
 				deleteIdentity(GetPlayerIdentifiers(source)[1], data, function(callback)
 					if callback then
-						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'You have deleted ^1' .. data.firstname .. ' ' .. data.lastname } })
+						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '캐릭터 삭제: ^1' .. data.firstname .. ' ' .. data.lastname } })
 					else
-						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'Failed to delete the character, try again later or contact the server admin!' } })
+						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '캐릭터를 삭제하지 못했습니다. 나중에 다시 시도하거나 서버 관리자에게 문의하십시오!' } })
 					end
 				end)
 			else
-				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'You don\'t have a character in slot 1!' } })
+				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '슬롯 1에 캐릭터가 없습니다!' } })
 			end
 
 		elseif charNumber == 2 then
@@ -418,13 +418,13 @@ TriggerEvent('es:addGroupCommand', 'chardel', 'user', function(source, args, use
 			if data.firstname ~= '' then
 				deleteIdentity(GetPlayerIdentifiers(source)[1], data, function(callback)
 					if callback then
-						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'You have deleted ^1' .. data.firstname .. ' ' .. data.lastname } })
+						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '캐릭터 삭제: ^1' .. data.firstname .. ' ' .. data.lastname } })
 					else
-						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'Failed to delete the character, try again later or contact the server admin!' } })
+						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '캐릭터를 삭제하지 못했습니다. 나중에 다시 시도하거나 서버 관리자에게 문의하십시오!' } })
 					end
 				end)
 			else
-				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'You don\'t have a character in slot 2!' } })
+				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '슬롯 2에 캐릭터가 없습니다!' } })
 			end
 
 		elseif charNumber == 3 then
@@ -441,18 +441,18 @@ TriggerEvent('es:addGroupCommand', 'chardel', 'user', function(source, args, use
 			if data.firstname ~= '' then
 				deleteIdentity(GetPlayerIdentifiers(source)[1], data, function(callback)
 					if callback then
-						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'You have deleted ^1' .. data.firstname .. ' ' .. data.lastname } })
+						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '캐릭터 삭제: ^1' .. data.firstname .. ' ' .. data.lastname } })
 					else
-						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'Failed to delete the character, try again later or contact the server admin!' } })
+						TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '캐릭터를 삭제하지 못했습니다. 나중에 다시 시도하거나 서버 관리자에게 문의하십시오!' } })
 					end
 				end)
 			else
-				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'You don\'t have a character in slot 3!' } })
+				TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '슬롯 3에 캐릭터가 없습니다!' } })
 			end
 		else
-			TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', 'Failed to delete the character, try again!' } })
+			TriggerClientEvent('chat:addMessage', source, { args = { '^1[IDENTITY]', '캐릭터를 삭제하지 못했습니다. 다시 시도하십시오!' } })
 		end
 	end)
 end, function(source, args, user)
-	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient permissions!' } })
+	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', '권한이 충분하지 않습니다!' } })
 end, {help = "Delete a registered character", params = {{name = "char", help = "the character id, ranges from 1-3"}}})
